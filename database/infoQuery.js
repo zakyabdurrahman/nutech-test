@@ -5,6 +5,10 @@ class InfoQuery {
     text: 'SELECT * FROM banners;'
   };
 
+  static serviceQuery = {
+    name: 'fetch-services',
+    text: 'SELECT * FROM services;'
+  };
 
 }
 
