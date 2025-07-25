@@ -1,5 +1,5 @@
 const {decodeToken} = require('../helpers/helpers');
-const {User} = require('../models');
+
 
 async function authentication(req, res, next) {
     try {
