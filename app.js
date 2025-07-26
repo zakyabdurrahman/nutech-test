@@ -6,6 +6,7 @@ if (process.env.NODE_ENV !== "production") {
 const router = require('./routers');
 const errorHandler = require('./middlewares/errorHandler');
 
+app.use(express.static('public'));  
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
