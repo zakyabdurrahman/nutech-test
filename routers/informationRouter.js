@@ -1,9 +1,7 @@
 const router = require('express').Router();
-const CategoryController = require('../controllers/categoryController')
+const InformationController = require('../controllers/informationController');
 
-router.post('/', CategoryController.add);
-router.get('/', CategoryController.read);
-router.put('/:id', CategoryController.edit);
-router.delete('/:id', CategoryController.delete);
+router.get('/banner', InformationController.getBanners);
+
 
 module.exports = router;

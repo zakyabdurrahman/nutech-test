@@ -1,4 +1,4 @@
-const {User} = require('../models');
+const Joi = require('joi');
 const {comparePass, signToken} = require('../helpers/helpers');
 
 class AuthController {
@@ -45,20 +45,33 @@ class AuthController {
 
     static async register(req, res, next) {
         try {
-            const {email, password, phoneNumber, address, username} = req.body;
-            const newUser = await User.create({
-                email, 
-                password,
-                phoneNumber,
-                address,
-                username
+            const bod = req.body;
+
+            console.log(bod);
+
+            const schema = Joi.object({
+              email: Joi.string().email().required().messages({
+                "any.required": `Email wajib diisi`,
+                "string.email": "Paramter email tidak sesuai format",
+              }),
+              first_name: Joi.string().max(50).required().messages({
+                "any.required": `Nama wajib diisi`,
+                "string.max": `Nama maksimal 50 karakter`,
+              }),
+              last_name: Joi.string().max(50).required().messages({
+                "any.required": `Nama wajib diisi`,
+                "string.max": `Nama maksimal 50 karakter`,
+              }),
+              password: Joi.string().min(8).max(32).required().messages({
+                "any.required": `Password wajib diisi`,
+                "string.max": `Password maksimal 32 karakter`,
+                "string.min": `Password minimal 8 karakter`
+              })
+
             });
-
-            const userData = {
-                id: newUser.id,
-                email: newUser.email
-            };
-
+            
+            
+            
             res.status(201).json({
                 message: 'Success create new user',
                 user: userData
