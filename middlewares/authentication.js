@@ -3,31 +3,15 @@ const {decodeToken} = require('../helpers/helpers');
 
 async function authentication(req, res, next) {
     try {
-        const {authorization} = req.headers;
-        
-        if (!authorization) throw {name: 'Unauthorized'};
-        
-
-        //if exist get token
-        const accessToken = authorization.split(' ')[1];
-
-        //decode 
-        const payload = decodeToken(accessToken);
-
-        //find user 
-        const user = await User.findByPk(payload.userId);
-
-        //if user not found 
-        if (!user) throw {name: 'Unauthorized'};
-        console.log(`REQUEST OBJ: ${user.id}`);
-
-        //save userdata in session
-        req.loginData = {
-            userId: user.id,
-            email: user.email,
-            role: user.role
-        };
-        
+        const { authorization } = req.headers;
+        if (!authorization) {
+          let e  = Error("invalid token");
+          e.name = "JsonWebTokenError";
+          throw e;
+        }
+        let bearerToken = authorization.split(" ")[1];
+        const userData = decodeToken(bearerToken);
+        req.loginData = userData;
         next();
     } catch(error) {
         console.log(error);

@@ -8,11 +8,12 @@ function hash(input) {
 }
 
 function comparePass(original, input) {
+    
     return bcrypt.compareSync(input, original);
 }
 
 function signToken(payload) {
-    return jwt.sign(payload, process.env.SECRET_KEY);
+    return jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: "12h"});
 }
 
 function decodeToken(token) {
