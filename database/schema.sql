@@ -40,7 +40,7 @@ CREATE TABLE transactions (
     user_id UUID REFERENCES users(user_id),
     invoice_number VARCHAR(50),
     transaction_type VARCHAR(50),
-    created_on DATETIME,
+    created_on TIMESTAMP,
     total_amount INT,
     description TEXT
 );
