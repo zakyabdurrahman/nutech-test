@@ -20,4 +20,10 @@ function decodeToken(token) {
     return jwt.verify(token, process.env.SECRET_KEY);
 }
 
-module.exports = {hash, comparePass, signToken, decodeToken}
+function generateInvoiceID() {
+  const prefix = "INV";
+  const randomNumber = Math.floor(100000000 + Math.random() * 900000000); // 9-digit random number
+  return `${prefix}${randomNumber}`;
+}
+
+module.exports = {hash, comparePass, signToken, decodeToken, generateInvoiceID}

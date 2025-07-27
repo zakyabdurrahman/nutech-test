@@ -42,12 +42,6 @@ CREATE TABLE transactions (
     transaction_type VARCHAR(50),
     created_on DATE,
     total_amount INT,
-    service_id UUID REFERENCES services(service_id)
+    description TEXT
 );
 
--- Table: transaction_history
-CREATE TABLE transaction_history (
-    his_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID REFERENCES users(user_id),
-    trans_id UUID REFERENCES transactions(trans_id)
-);

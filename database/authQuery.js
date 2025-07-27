@@ -2,7 +2,12 @@ class AuthQuery {
   static inputUser = {
     // give the query a unique name
     name: "input-user",
-    text: "INSERT INTO users(email, password, first_name, last_name) VALUES ($1, $2, $3, $4);",
+    text: "INSERT INTO users(email, password, first_name, last_name) VALUES ($1, $2, $3, $4) RETURNING user_id;",
+  };
+
+  static makeBalance = {
+    name: "input-balance",
+    text: "INSERT INTO balances(user_id, balance) VALUES ($1, 0);"
   };
 
   static updateUser = {

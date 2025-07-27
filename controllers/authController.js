@@ -94,12 +94,15 @@ class AuthController {
         throw Error("email harus unik");
       }
 
-      await conn.query(AuthQuery.inputUser, [
+      let newUserData = await conn.query(AuthQuery.inputUser, [
         bod.email,
         passHash,
         bod.first_name,
         bod.last_name,
       ]);
+
+      //make balance
+      await conn.query(AuthQuery.makeBalance, [newUserData.rows[0].user_id]); 
 
       res.status(200).json({
         status: 0,

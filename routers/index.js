@@ -2,6 +2,7 @@ const router = require('express').Router();
 const authentication = require('../middlewares/authentication');
 const informationRouter = require('./informationRouter');
 const authRouter = require('./authRouter');
+const balanceRouter = require('./balanceRouter');
 
 
 /*
@@ -14,7 +15,9 @@ router.use('', authRouter);
 
 
 router.use(authentication);
+router.use('', balanceRouter);
 /*
+
 router.post('/add-user', authorization, AuthController.register);
 router.use('/products', productRouter);
 router.use('/categories', categoryRouter);

@@ -6,8 +6,9 @@ const authentication = require('../middlewares/authentication.js');
 
 
 router.post('/register', AuthController.register);
+router.post("/login", AuthController.login);
 router.use(authentication);
-router.post('/login', AuthController.login);
+
 router.get('/profile', AuthController.getProfile);
 router.put('/profile/update', AuthController.setProfile);
 router.put("/profile/image", upload.single('file'), AuthController.setProfileImage);
