@@ -89,7 +89,7 @@ class BalanceController {
     try {
       let body = req.body;
       const schema = Joi.object({
-        service_code: Joi.string().required()
+        service_code: Joi.string().required(),
       });
 
       const { error, value } = schema.validate(body);
@@ -106,7 +106,9 @@ class BalanceController {
         userRawData.rows[0].user_id,
       ]);
 
-      let serviceRawData = await conn.query(InfoQuery.serviceByCode, [value.service_code]);
+      let serviceRawData = await conn.query(InfoQuery.serviceByCode, [
+        value.service_code,
+      ]);
       let serviceResult = serviceRawData.rows[0];
 
       if (!serviceResult) throw Error("Service ataus Layanan tidak ditemukan");
@@ -124,9 +126,8 @@ class BalanceController {
       //substract
       balanceRawData = await conn.query(BalanceQuery.decreaseBalance, [
         userRawData.rows[0].user_id,
-        amount
+        amount,
       ]);
-      
 
       let transData = await conn.query(BalanceQuery.addTransaction, [
         userRawData.rows[0].user_id,
@@ -136,10 +137,6 @@ class BalanceController {
         created_on,
         desc,
       ]);
-
-      
-
-      
 
       res.status(200).json({
         status: 0,
@@ -152,6 +149,30 @@ class BalanceController {
           total_amount: amount,
           created_on: transData.rows[0].created_on,
         },
+      });
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
+
+  static async getHistory(req, res, next) {
+    try {
+      const limit = req.query.limit ? req.query.limit : null;
+      const offset = req.query.offset ? req.query.offset : null;
+
+      let email = req.loginData.email;
+
+      let rawQueryData = await conn.query(BalanceQuery.getTransaction, [email, limit, offset]);
+
+      res.status(200).json({
+        status: 0,
+        message: "Transaksi berhasil",
+        data: {
+          limit,
+          offset,
+          records: rawQueryData.rows
+        }
       });
     } catch (error) {
       console.log(error);

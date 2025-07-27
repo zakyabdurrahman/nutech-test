@@ -9,5 +9,6 @@ router.use(authentication);
 router.get('/balance', BalanceController.getBalance);
 router.post('/topup', BalanceController.addBalance);
 router.post('/transaction', BalanceController.buyService);
+router.get("/transaction/history", BalanceController.getHistory);
 
 module.exports = router;
